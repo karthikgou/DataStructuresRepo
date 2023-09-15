@@ -447,6 +447,12 @@ public class SortShow extends JPanel {
 	        	Thread.currentThread().interrupt();
 	        }
 		}
+
+
+		public void shell_sort()
+		{
+			System.out.println("shell sort called");
+		}
 		
 	}
 
