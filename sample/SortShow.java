@@ -102,9 +102,10 @@ public class SortShow extends JPanel {
 			for (int j = 0; j < total_number_of_lines - i - 1; j++) {
 				if(lines_lengths[j] > lines_lengths[j+1]) {
 					swap(j,j+1);
+					paintComponent(this.getGraphics());
 				}
 			}
-			paintComponent(this.getGraphics());
+
 
 		}
 		//getting the date and time when the selection sort ends
@@ -146,7 +147,7 @@ public class SortShow extends JPanel {
 
 				R_Merge(first, mid, last);
 				//You need to complete this part.
-				paintComponent(this.getGraphics());
+
 
 			}
 		}
@@ -181,19 +182,23 @@ public class SortShow extends JPanel {
 			while (l < leftArraySize && r < rightArraySize) {
 				if (leftArray[l] <= rightArray[r]) {
 					lines_lengths[k++] = leftArray[l++];
+					paintComponent(this.getGraphics());
 				} else {
 					lines_lengths[k++] = rightArray[r++];
+					paintComponent(this.getGraphics());
 				}
 			}
 
 			// Copy any remaining elements from leftArray
 			while (l < leftArraySize) {
 				lines_lengths[k++] = leftArray[l++];
+				paintComponent(this.getGraphics());
 			}
 
 			// Copy any remaining elements from rightArray
 			while (r < rightArraySize) {
 				lines_lengths[k++] = rightArray[r++];
+				paintComponent(this.getGraphics());
 			}
 		}
 		
@@ -289,7 +294,7 @@ public class SortShow extends JPanel {
 			}
 		}
 		//redrawing the lines_lengths
-		paintComponent(this.getGraphics());
+//		paintComponent(this.getGraphics());
 
 		// Finish off the nonempty sub-array
 
@@ -306,6 +311,8 @@ public class SortShow extends JPanel {
 		// Copy the result back into the original array
 		for (index = first; index <= last; index++)
 			lines_lengths[index] = tempArray[index];
+		    paintComponent(this.getGraphics());
+
 	}
 
 	//////////////////////////////////////////////////////////////////////	
@@ -352,6 +359,77 @@ public class SortShow extends JPanel {
 				g.drawLine(4*i + 25, 300, 4*i + 25, 300 - lines_lengths[i]);
 			}
 			
+		}
+
+	public int get_pivot(int low,int high)
+	{
+		int i=low-1;
+
+		for(int j=low;j<=high-1;j++)
+		{
+			if(lines_lengths[j]<lines_lengths[high])
+			{
+				i=i+1;
+				swap(i,j);
+			}
+			paintComponent(this.getGraphics());
+		}
+		swap(i+1,high);
+
+
+		return i+1;
+
+	}
+
+	public void rquicksort(int low,int high)
+	{
+		if(low<high)
+		{
+			int pivot=get_pivot(low,high);
+			rquicksort(low,pivot-1);
+			rquicksort(pivot+1,high);
+		}
+	}
+
+		public void quick_sort()
+		{
+			System.out.println("quick sort called");
+			Calendar start = Calendar.getInstance();
+			int low=0;
+			int high=total_number_of_lines-1;
+
+			rquicksort(low,high);
+//			for(int i=0;i<256;i++){
+//				System.out.println(lines_lengths[i]);
+//			}
+			Calendar end = Calendar.getInstance();
+
+			SortGUI.rquickTime = end.getTime().getTime() - start.getTime().getTime();
+		}
+
+
+		public void insertion()
+		{
+			System.out.println("insertion called");
+			Calendar start = Calendar.getInstance();
+			int n=total_number_of_lines;
+			for(int i=1;i<n;i++)
+			{
+
+				int key=lines_lengths[i];
+				int j=i-1;
+
+				while(j>=0 && lines_lengths[j]>key)
+				{
+					lines_lengths[j+1]=lines_lengths[j];
+					j=j-1;
+					paintComponent(this.getGraphics());
+				}
+				lines_lengths[j+1]=key;
+			}
+			Calendar end = Calendar.getInstance();
+
+			SortGUI.insertionTime = end.getTime().getTime() - start.getTime().getTime();
 		}
 		
 		//A delay method that pauses the execution for the milliseconds time given as a parameter
