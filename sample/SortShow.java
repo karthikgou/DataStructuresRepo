@@ -79,11 +79,14 @@ public class SortShow extends JPanel {
 				for (int j = i + 1; j < total_number_of_lines; j++) {
 					if (lines_lengths[j] < lines_lengths[index]) {
 						index = j;
+
 					}
 				}
 				
 				// Swap the found minimum element with the current index
 				swap(index, i);
+				paintComponent(this.getGraphics());
+
 
 				delay(10);
 			}
@@ -116,10 +119,12 @@ public class SortShow extends JPanel {
 				// Compare adjacent elements and swap them if they are in the wrong order
 				if (lines_lengths[j] > lines_lengths[j+1]) {
 					swap(j, j+1);
+					paintComponent(this.getGraphics());
 				}
+
 			}
 			// Visualize the current state of the array after each change
-			paintComponent(this.getGraphics());
+
 		}
 
 		// Getting the date and time when the bubble sort ends
@@ -210,16 +215,22 @@ public class SortShow extends JPanel {
 			} else {
 				lines_lengths[k++] = rightArray[r++];
 			}
+			// Visualize the current state of the array
+			paintComponent(this.getGraphics());
 		}
 
 		// Copy any remaining elements from leftArray
 		while (l < leftArraySize) {
 			lines_lengths[k++] = leftArray[l++];
+			// Visualize the current state of the array
+			paintComponent(this.getGraphics());
 		}
 
 		// Copy any remaining elements from rightArray
 		while (r < rightArraySize) {
 			lines_lengths[k++] = rightArray[r++];
+			// Visualize the current state of the array
+			paintComponent(this.getGraphics());
 		}
 	}
 		//
@@ -329,9 +340,10 @@ public class SortShow extends JPanel {
 			tempArray[index] = lines_lengths[beginHalf2];
 
 		// Copy the result back into the original array
-		for (index = first; index <= last; index++)
+		for (index = first; index <= last; index++) {
 			lines_lengths[index] = tempArray[index];
-		    paintComponent(this.getGraphics());
+			paintComponent(this.getGraphics());
+		}
 
 	}
 
@@ -391,10 +403,12 @@ public class SortShow extends JPanel {
 			{
 				i=i+1;
 				swap(i,j);
+				paintComponent(this.getGraphics());
 			}
-			paintComponent(this.getGraphics());
+
 		}
 		swap(i+1,high);
+		paintComponent(this.getGraphics());
 
 
 		return i+1;
@@ -408,7 +422,9 @@ public class SortShow extends JPanel {
 			int pivot=get_pivot(low,high);
 			rquicksort(low,pivot-1);
 			rquicksort(pivot+1,high);
+			paintComponent(this.getGraphics());
 		}
+
 	}
 
 		public void quick_sort()
@@ -419,9 +435,7 @@ public class SortShow extends JPanel {
 			int high=total_number_of_lines-1;
 
 			rquicksort(low,high);
-//			for(int i=0;i<256;i++){
-//				System.out.println(lines_lengths[i]);
-//			}
+
 			Calendar end = Calendar.getInstance();
 
 			SortGUI.rquickTime = end.getTime().getTime() - start.getTime().getTime();
@@ -462,7 +476,7 @@ public class SortShow extends JPanel {
 		}
 
 		//The ShellSort method
-		public void ShellSort(){
+		public void shell_sort(){
 			//getting the date and time when the selection sort starts
 			Calendar start = Calendar.getInstance();
 
@@ -474,6 +488,7 @@ public class SortShow extends JPanel {
 					int j;
 					for (j = i; j >= currentgap && lines_lengths[j - currentgap] > temp; j -= currentgap) {
 						lines_lengths[j] = lines_lengths[j - currentgap];
+						paintComponent(this.getGraphics());
 					}
 					lines_lengths[j] = temp;
 				}
