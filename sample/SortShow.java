@@ -68,12 +68,25 @@ public class SortShow extends JPanel {
 		}
 		
 		//The selectionSort method
-		public void SelectionSort(){
-			//getting the date and time when the selection sort starts
+		public void SelectionSort(){			//getting the date and time when the selection sort starts
 			Calendar start = Calendar.getInstance();
-			//Using the selection sort to lines_lengths sort the array
 
-			//You need to complete this part.
+			//move index one by one in array where the current minimum element will be placed
+			for (int i = 0; i < total_number_of_lines - 1; i++) {
+
+				// Find the minimum element in the unsorted part of the array
+				int index = i;
+				for (int j = i + 1; j < total_number_of_lines; j++) {
+					if (lines_lengths[j] < lines_lengths[index]) {
+						index = j;
+					}
+				}
+				
+				// Swap the found minimum element with the current index
+				swap(index, i);
+
+				delay(10);
+			}
 
 			//getting the date and time when the selection sort ends
 			Calendar end = Calendar.getInstance();
@@ -448,10 +461,31 @@ public class SortShow extends JPanel {
 	        }
 		}
 
+		//The ShellSort method
+		public void ShellSort(){
+			//getting the date and time when the selection sort starts
+			Calendar start = Calendar.getInstance();
 
-		public void shell_sort()
-		{
-			System.out.println("shell sort called");
+			// Start with a large gap and reduce it until it becomes 1
+			for (int currentgap = total_number_of_lines / 2; currentgap > 0; currentgap /= 2) {
+				// Perform insertion sort on elements with the given gap
+				for (int i = currentgap; i < total_number_of_lines; i++) {
+					int temp = lines_lengths[i];
+					int j;
+					for (j = i; j >= currentgap && lines_lengths[j - currentgap] > temp; j -= currentgap) {
+						lines_lengths[j] = lines_lengths[j - currentgap];
+					}
+					lines_lengths[j] = temp;
+				}
+
+				delay(10);
+			}
+
+			//getting the date and time when the selection sort ends
+			Calendar end = Calendar.getInstance();
+			//getting the time it took for the selection sort to execute 
+			//subtracting the end time with the start time
+	        SortGUI.shellTime = end.getTime().getTime() - start.getTime().getTime();
 		}
 		
 	}
