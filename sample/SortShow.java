@@ -89,119 +89,126 @@ public class SortShow extends JPanel {
 
 			return 1; //modify this line
 		}
-	///////////////////////////////////////////////////////////////////////////////////
-
-	//The Bubble Sort method
-	public void BubbleSort(){
-		//getting the date and time when the selection sort starts
+	/**
+	 * Performs a bubble sort algorithm to sort an array of line lengths in ascending order.
+	 * The sorting process is visualized using the "paintComponent" method.
+	 */
+	public void BubbleSort() {
+		// Getting the date and time when the bubble sort starts
 		Calendar start = Calendar.getInstance();
-		//Using the selection sort to lines_lengths sort the array
 
-		//You need to complete this part.
+		// Using the bubble sort algorithm to sort the array
 		for (int i = 0; i < total_number_of_lines - 1; i++) {
 			for (int j = 0; j < total_number_of_lines - i - 1; j++) {
-				if(lines_lengths[j] > lines_lengths[j+1]) {
-					swap(j,j+1);
-					paintComponent(this.getGraphics());
+				// Compare adjacent elements and swap them if they are in the wrong order
+				if (lines_lengths[j] > lines_lengths[j+1]) {
+					swap(j, j+1);
 				}
 			}
-
-
+			// Visualize the current state of the array after each change
+			paintComponent(this.getGraphics());
 		}
-		//getting the date and time when the selection sort ends
+
+		// Getting the date and time when the bubble sort ends
 		Calendar end = Calendar.getInstance();
-		//getting the time it took for the selection sort to execute
-		//subtracting the end time with the start time
+
+		// Calculating the time it took for the bubble sort to execute
+		// by subtracting the end time from the start time
 		SortGUI.bubbleTime = end.getTime().getTime() - start.getTime().getTime();
 	}
 
+	/**
+	 * Recursive merge sort method for sorting an array of line lengths in ascending order.
+	 * Measures the execution time and updates the 'rmergeTime' variable in the SortGUI class.
+	 */
+	public void R_MergeSort() {
+		// Getting the date and time when the recursive merge sort starts
+		Calendar start = Calendar.getInstance();
 
-	///////////////////////////////////////////////////////////////////////////////////
-		
-		//recursive merge sort method
-		public void R_MergeSort(){
-			//getting the date and time when the recursive merge sort starts
-			Calendar start = Calendar.getInstance();
-			//assigning the size for the tempArray below
-			tempArray = new int[total_number_of_lines];
-			R_MergeSort(0, total_number_of_lines - 1);
-			//You need to complete this part.
-			Calendar end = Calendar.getInstance();
-			//getting the time it took for the iterative merge sort to execute
-			//subtracting the end time with the start time
-	        SortGUI.rmergeTime = end.getTime().getTime() - start.getTime().getTime();
-			
+		// Assigning the size for the tempArray below
+		tempArray = new int[total_number_of_lines];
+
+		// Initiating the recursive merge sort
+		R_MergeSort(0, total_number_of_lines - 1);
+
+		// Getting the date and time when the recursive merge sort ends
+		Calendar end = Calendar.getInstance();
+
+		// Calculating the time it took for the recursive merge sort to execute
+		// by subtracting the end time from the start time and storing it in 'rmergeTime'
+		SortGUI.rmergeTime = end.getTime().getTime() - start.getTime().getTime();
+	}
+
+	/**
+	 * Recursive merge sort method that divides and sorts a portion of the array.
+	 *
+	 * @param first The index of the first element in the portion.
+	 * @param last The index of the last element in the portion.
+	 */
+	public void R_MergeSort(int first, int last) {
+		if (first < last) {
+			int mid = (first + last) / 2;
+
+			// Recursively sort the left and right subarrays
+			R_MergeSort(first, mid);
+			R_MergeSort(mid + 1, last);
+
+			// Merge the sorted subarrays
+			R_Merge(first, mid, last);
+
+			// Visualize the current state of the array
+			paintComponent(this.getGraphics());
 		}
-		
-		//recursive merge sort method
-		public void R_MergeSort(int first, int last){
-			if(first < last){
-				int mid = (first + last) / 2;
+	}
 
-				R_MergeSort(first, mid);
+	/**
+	 * Merges two subarrays of the main array.
+	 *
+	 * @param first The index of the first element in the first subarray.
+	 * @param mid The index of the last element in the first subarray.
+	 * @param last The index of the last element in the second subarray.
+	 */
+	public void R_Merge(int first, int mid, int last) {
+		// Calculate the sizes of the left and right subarrays
+		int leftArraySize = mid - first + 1;
+		int rightArraySize = last - mid;
 
-				R_MergeSort(mid + 1, last);
-//
-//				//Causing a delay for 10ms
-//				delay(10);
+		// Declare left and right subarrays
+		int[] leftArray = new int[leftArraySize];
+		int[] rightArray = new int[rightArraySize];
 
-				R_Merge(first, mid, last);
-				//You need to complete this part.
-
-
-			}
+		// Copy elements into left and right subarrays
+		for (int i = 0; i < leftArraySize; ++i) {
+			leftArray[i] = lines_lengths[first + i];
 		}
 
-		
-		//recursive merge sort method
-		public void R_Merge(int first, int mid, int last){
+		for (int j = 0; j < leftArraySize; j++) {
+			rightArray[j] = lines_lengths[mid + 1 + j];
+		}
 
-			//You need to complete this part.
+		int l = 0;
+		int r = 0;
+		int k = first;
 
-			int leftArraySize = mid - first + 1;
-			int rightArraySize = last - mid;
-
-			//Declare Left and Right sub arrays
-			int[] leftArray = new int[leftArraySize];
-			int[] rightArray = new int[rightArraySize];
-
-			// Copy elements into left and right sub arrays
-
-			for (int i = 0; i < leftArraySize; ++i) {
-				leftArray[i] = lines_lengths[first + i];
-			}
-
-			for (int j = 0; j < leftArraySize; j++) {
-				rightArray[j] = lines_lengths[mid + 1 + j];
-			}
-			int l = 0;
-			int r = 0;
-
-			int k = first;
-
-			while (l < leftArraySize && r < rightArraySize) {
-				if (leftArray[l] <= rightArray[r]) {
-					lines_lengths[k++] = leftArray[l++];
-					paintComponent(this.getGraphics());
-				} else {
-					lines_lengths[k++] = rightArray[r++];
-					paintComponent(this.getGraphics());
-				}
-			}
-
-			// Copy any remaining elements from leftArray
-			while (l < leftArraySize) {
+		// Merge the left and right subarrays into the main array
+		while (l < leftArraySize && r < rightArraySize) {
+			if (leftArray[l] <= rightArray[r]) {
 				lines_lengths[k++] = leftArray[l++];
-				paintComponent(this.getGraphics());
-			}
-
-			// Copy any remaining elements from rightArray
-			while (r < rightArraySize) {
+			} else {
 				lines_lengths[k++] = rightArray[r++];
-				paintComponent(this.getGraphics());
 			}
 		}
-		
+
+		// Copy any remaining elements from leftArray
+		while (l < leftArraySize) {
+			lines_lengths[k++] = leftArray[l++];
+		}
+
+		// Copy any remaining elements from rightArray
+		while (r < rightArraySize) {
+			lines_lengths[k++] = rightArray[r++];
+		}
+	}
 		//
 
 	//////////////////////////////////////////////////////////////////////////////////////////
