@@ -26,6 +26,8 @@ public class SortGUI {
 	public static double rquickTime=0.0;
 	//a variable that holds the amount of time for the recursive quick sort to execute
 
+	public static double shellTime=0.0;
+
 	public static double insertionTime=0.0;
 	//a variable that holds the amount of time for the insertion sort to execute
 
@@ -46,6 +48,8 @@ public class SortGUI {
 
 	//Boolean variable that is made to keep track whether or not the insertion sort has already been used
 	public boolean insertion_done=false;
+
+	public boolean shell_done=false;
 
 
 
@@ -84,6 +88,8 @@ public class SortGUI {
 
 		JRadioButton insertion=new JRadioButton("insertion");
 
+		JRadioButton shell=new JRadioButton(("Shell "));
+
 
 		//making a selection button with a text "Selection" on it
 		JRadioButton selection = new JRadioButton("Selection");
@@ -110,6 +116,9 @@ public class SortGUI {
 		JLabel insertion_time_label=new JLabel("insertion Time");
 		JLabel insertion_time_taken=new JLabel("");
 
+		JLabel shell_time_label=new JLabel("Shell Time");
+		JLabel shell_time_taken=new JLabel("");
+
 
 
 
@@ -134,6 +143,8 @@ public class SortGUI {
 			//The time displayed for insertion sort will be the colour red
 			insertion_time_taken.setForeground(Color.RED);
 
+			shell_time_taken.setForeground(Color.RED);
+
 
 
 			//The time displayed for recursive merge sort will be the colour red
@@ -151,6 +162,8 @@ public class SortGUI {
 
 			//The insertion button text will be the colour blue
 			insertion.setForeground(Color.BLUE);
+
+			shell.setForeground(Color.BLUE);
 
 			//The recursive merge button text will be the colour blue
 			rmerge.setForeground(Color.BLUE);
@@ -174,6 +187,8 @@ public class SortGUI {
 
 			//Adding the insertion button to the radio_button_selection_Panel
 			radio_button_selection_Panel.add(insertion);
+
+			radio_button_selection_Panel.add(shell);
 
 
 			//Adding the recursive merge button to the radio_button_selection_Panel
@@ -206,6 +221,9 @@ public class SortGUI {
 			time_Panel.add(insertion_time_label);
 			time_Panel.add(insertion_time_taken);
 
+			time_Panel.add(shell_time_label);
+			time_Panel.add(shell_time_taken);
+
 
 
 			//Adding the rmerge_time_label to the time_Panel
@@ -232,7 +250,7 @@ public class SortGUI {
 			//placing the sortArea object in the center of the window
 			add(sortArea, BorderLayout.CENTER);
 			//setting all booleans to false
-			Set_Available_Chooses(false, false, false, false, false,false,false);
+			Set_Available_Chooses(false, false, false, false, false,false,false,false);
 
 			//The following code is for creating a listener for each GUI element 
 
@@ -246,7 +264,7 @@ public class SortGUI {
 					//Since it has already been clicked, it will no longer be enabled
 					scramble_button.setEnabled(false); 
 					//setting all booleans true except for reset
-					Set_Available_Chooses(true, true, true, false, true,true,true);
+					Set_Available_Chooses(true, true, true, false, true,true,true,true);
 				}
 			});
 
@@ -260,7 +278,7 @@ public class SortGUI {
 					//The amount of time taken for selection sort took
 					selection_time_taken.setText(selectionTime / 1000 + " Seconds");
 					//setting all booleans false except for reset
-					Set_Available_Chooses(false, false, false, true, false,false,false);
+					Set_Available_Chooses(false, false, false, true, false,false,false,false);
 				}
 			});
 
@@ -274,7 +292,7 @@ public class SortGUI {
 					//The amount of time taken for selection sort took
 					bubble_time_taken.setText(bubbleTime / 1000 + " Seconds");
 					//setting all booleans false except for reset
-					Set_Available_Chooses(false, false, false, true, false,false,false);
+					Set_Available_Chooses(false, false, false, true, false,false,false,false);
 				}
 			});
 
@@ -288,7 +306,7 @@ public class SortGUI {
 					//recursive merge sort has finished/been clicked
 					Recersive_Merge_Done = true;
 					//setting all booleans false except for reset
-					Set_Available_Chooses(false, false, false, true, false,false,false);
+					Set_Available_Chooses(false, false, false, true, false,false,false,false);
 				}
 			});
 			
@@ -302,7 +320,7 @@ public class SortGUI {
 					//iterative merge sort has finished/been clicked
 					Iterative_Merge_Done = true;
 					//setting all booleans false except for reset
-					Set_Available_Chooses(false, false, false, true, false,false,false);
+					Set_Available_Chooses(false, false, false, true, false,false,false,false);
 				}
 			});
 
@@ -316,7 +334,7 @@ public class SortGUI {
 					//iterative merge sort has finished/been clicked
 					recursive_quick_done = true;
 					//setting all booleans false except for reset
-					Set_Available_Chooses(false, false, false, true, false,false,false);
+					Set_Available_Chooses(false, false, false, true, false,false,false,false);
 				}
 			});
 
@@ -333,7 +351,21 @@ public class SortGUI {
 					//iterative merge sort has finished/been clicked
 					insertion_done = true;
 					//setting all booleans false except for reset
-					Set_Available_Chooses(false, false, false, true, false,false,false);
+					Set_Available_Chooses(false, false, false, true, false,false,false,false);
+				}
+			});
+
+
+			shell.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//Sorting the array in the iterative merge sort method
+					sortArea.shell_sort();
+					//The amount of time taken for iterative merge sort took
+					shell_time_taken.setText((shellTime/ 1000) + " Seconds");
+					//iterative merge sort has finished/been clicked
+					shell_done = true;
+					//setting all booleans false except for reset
+					Set_Available_Chooses(false, false, false, true, false,false,false,false);
 				}
 			});
 
@@ -357,7 +389,7 @@ public class SortGUI {
 						Iterative_Merge_Done = false;
 						Selection_Done = false;
 						Bubble_Done = false;
-						Set_Available_Chooses(false, false, false, false, false,false,false);
+						Set_Available_Chooses(false, false, false, false, false,false,false,false);
 						selection_time_taken.setText("");
 						rmerge_time_taken.setText("");
 						imerge_time_taken.setText("");
@@ -382,7 +414,7 @@ public class SortGUI {
 //
 //					}
 					else {
-						Set_Available_Chooses(!Selection_Done, !Recersive_Merge_Done, !Iterative_Merge_Done, false, !Bubble_Done,!recursive_quick_done,!insertion_done);
+						Set_Available_Chooses(!Selection_Done, !Recersive_Merge_Done, !Iterative_Merge_Done, false, !Bubble_Done,!recursive_quick_done,!insertion_done,!shell_done);
 
 					}
 				}
@@ -392,7 +424,7 @@ public class SortGUI {
 
 		//A method that sets if the button are enabled or disabled
 		public void Set_Available_Chooses(boolean selection_state, boolean rmerge_state, boolean imerge_state,
-				boolean reset_state, boolean bubble_state,boolean rquick_state,boolean insertion_state) {
+				boolean reset_state, boolean bubble_state,boolean rquick_state,boolean insertion_state,boolean shell_state) {
 			this.selection.setEnabled(selection_state);
 			this.rmerge.setEnabled(rmerge_state);
 			this.imerge.setEnabled(imerge_state);
@@ -400,6 +432,7 @@ public class SortGUI {
 			this.bubble.setEnabled(bubble_state);
 			this.rquick.setEnabled(rquick_state);
 			this.insertion.setEnabled(insertion_state);
+			this.shell.setEnabled(shell_state);
 		}
 	}
 
